@@ -4,7 +4,7 @@
 
 using namespace std;
 
-char * p;
+char * p=NULL;
 size_t totalSize;
 size_t offset;
 
@@ -21,7 +21,7 @@ void makeAllocator(size_t Maxsize)
 char * alloc(size_t size)
 {
 	size_t newOffset = offset + size;
-	if (newOffset <= totalSize)
+	if (p && (newOffset <= totalSize))
 	{
 		char* ptr = p + offset;
 		offset = newOffset;
@@ -35,5 +35,6 @@ void reset()
 	offset=0;
 	totalSize=0;
 	free(p);
+	p=NULL;
 	return;
 }
