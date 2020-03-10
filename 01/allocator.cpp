@@ -1,13 +1,14 @@
 #include <iostream>
+#include <cstdio>
 #include "allocator.h"
 
 using namespace std;
 
 char * p;
-uint32_t totalSize;
-uint32_t offset;
+size_t totalSize;
+size_t offset;
 
-void makeAllocator(uint32_t Maxsize)
+void makeAllocator(size_t Maxsize)
 {
 	if(!Maxsize)
 		return;
@@ -17,9 +18,9 @@ void makeAllocator(uint32_t Maxsize)
 	return;
 }
 
-char * alloc(uint32_t size)
+char * alloc(size_t size)
 {
-	uint32_t newOffset = offset + size;
+	size_t newOffset = offset + size;
 	if (newOffset <= totalSize)
 	{
 		char* ptr = p + offset;
