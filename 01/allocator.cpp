@@ -3,7 +3,7 @@
 
 using namespace std;
 
-char * p=(char*)malloc(sizeof(char));
+char * p;
 uint32_t totalSize;
 uint32_t offset;
 
@@ -13,6 +13,7 @@ void makeAllocator(uint32_t Maxsize)
 		return;
 	offset=0;
 	totalSize=Maxsize;
+	p=(char*)malloc(sizeof(char)*Maxsize);
 	return;
 }
 
@@ -32,5 +33,6 @@ void reset()
 {
 	offset=0;
 	totalSize=0;
+	free(p);
 	return;
 }
