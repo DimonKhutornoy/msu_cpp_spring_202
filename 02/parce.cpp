@@ -3,9 +3,6 @@
 #include <string>
 #include "parce.h"
 
-using onWord = void (*)(std:: string &);
-using limits = void (*)();
-
 
 parcing::parcing (onWord n, onWord s, limits st, limits fi)
 {
