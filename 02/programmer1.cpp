@@ -3,14 +3,9 @@
 #include <string>
 #include "programmer1.h"
 
-void onNumberFound1 (std:: string & n)
+void onNumberFound1 (int n)
 {
-	int res=0;
-	for (int i=0; i<n.length(); i++)
-	{
-		res=res*10+(n[i]-'0');
-	}
-	std::cout<<"number(pr1): "<<res<<'\n';
+	std::cout<<"number(pr1): "<<n<<'\n';
 	return;
 }
 

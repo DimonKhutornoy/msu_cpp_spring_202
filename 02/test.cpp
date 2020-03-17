@@ -7,9 +7,18 @@
 
 int main()
 {
-	parcing pr1(onNumberFound1, onStringFound1, ParceStart1, ParceFinish1);
-	pr1.parce("Text for programmer number 1");
-	parcing pr2(onNumberFound2, onStringFound2, ParceStart2, ParceFinish2);
-	pr2.parce("Text for programmer number 2");
+	parcing pr;
+	pr.forNum(onNumberFound1);
+	pr.forStart(ParceStart1);
+	pr.parce("Text for programmer number 1");
+	std::cout<<'\n';
+	pr.forStr(onStringFound2);
+	pr.forFinish(ParceFinish2);
+	pr.parce("Text for\n1 and 2-th\tprogrammers");
+	std::cout<<'\n';
+	pr.forStart(ParceStart2);
+	pr.forNum(onNumberFound2);
+	pr.parce("Text for programmer number 2");
+	std::cout<<'\n';
 	return 0;
 }
