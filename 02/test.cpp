@@ -7,7 +7,9 @@
 
 int main()
 {
-	parse(onNumberFound1, onStringFound1, ParceStart1, ParceFinish1, "Text for programmer number 1");
-	parse(onNumberFound2, onStringFound2, ParceStart2, ParceFinish2, "Text for programmer number 2");
+	parcing pr1(onNumberFound1, onStringFound1, ParceStart1, ParceFinish1);
+	pr1.parce("Text for programmer number 1");
+	parcing pr2(onNumberFound2, onStringFound2, ParceStart2, ParceFinish2);
+	pr2.parce("Text for programmer number 2");
 	return 0;
 }

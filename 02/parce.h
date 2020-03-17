@@ -4,7 +4,15 @@
 using onWord = void (*)(std:: string &);
 using limits = void (*)();
 
-void register_token(std::string &, onWord, onWord);
-void parse (onWord, onWord, limits, limits, const char *);
-
+class parcing
+{
+	onWord callNum; 
+	onWord callStr; 
+	limits start;
+	limits finish;
+public:
+	parcing (onWord, onWord, limits, limits);
+	void register_token(std::string &);
+	void parce (const char *);
+};
 #endif
