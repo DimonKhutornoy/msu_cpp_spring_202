@@ -1,13 +1,11 @@
 #include <iostream>
 #include <cstdio>
+#include <string>
 #include "parce.h"
 
-using onWord = void (*)(const char*);
-using limits = void (*)();
-
-void register_token(const char * wrd, onWord callNum, onWord callStr)
+void register_token(std::string & wrd, onWord callNum, onWord callStr)
 {
-	char c=*wrd;
+	char c=wrd[0];
 	if (c>='0' && c<='9') callNum(wrd);
 	else callStr(wrd);
 }
@@ -15,10 +13,7 @@ void register_token(const char * wrd, onWord callNum, onWord callStr)
 void parse (onWord callNum, onWord callStr, limits start, limits finish, const char * text)
 {
 	int i=0;
-	int sz=20;
-	char*wrd=(char*)malloc(sizeof(char)*sz);
-	if (!wrd)
-		std::cout<<"error"<<'\n';
+	std::string wrd;
 	start();
 	while ((*text)!='\0')
 	{
@@ -29,20 +24,12 @@ void parse (onWord callNum, onWord callStr, limits start, limits finish, const c
 				wrd[i]='\0';
 				register_token(wrd, callNum, callStr);
 				i=0;
-				sz=20;
-				free(wrd);
-				wrd=(char*)malloc(sizeof(char)*sz);
-				if (!wrd)
-					std::cout<<"error"<<'\n';
+				wrd.clear();
 			}
 		}
 		else
 		{
-			if (i>=sz-1)
-			{
-				sz*=2;
-				wrd=(char*)realloc(wrd, sizeof(char)*sz);
-			}
+			wrd.resize(i+1);
 			wrd[i]=*text;
 			i++;
 		}
@@ -53,6 +40,6 @@ void parse (onWord callNum, onWord callStr, limits start, limits finish, const c
 		wrd[i]='\0';
 		register_token(wrd, callNum, callStr);
 	}
-	free(wrd);
+	wrd.clear();
 	finish();
 }

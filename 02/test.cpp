@@ -1,4 +1,6 @@
 #include <iostream>
+#include <cstdio>
+#include <string>
 #include "programmer1.h"
 #include "programmer2.h"
 #include "parce.h"

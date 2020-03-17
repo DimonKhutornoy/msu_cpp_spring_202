@@ -1,14 +1,20 @@
 #include <iostream>
 #include <cstdio>
+#include <string>
 #include "programmer1.h"
 
-void onNumberFound1 (const char * n)
+void onNumberFound1 (std:: string & n)
 {
-	std::cout<<"number(pr1): "<<n<<'\n';
+	int res=0;
+	for (int i=0; i<n.length(); i++)
+	{
+		res=res*10+(n[i]-'0');
+	}
+	std::cout<<"number(pr1): "<<res<<'\n';
 	return;
 }
 
-void onStringFound1 (const char * s)
+void onStringFound1 (std:: string & s)
 {
 	std::cout<<"string(pr1): "<<s<<'\n';
 	return;
