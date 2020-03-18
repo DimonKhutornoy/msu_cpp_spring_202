@@ -9,7 +9,7 @@ void onNumberFound2 (int n)
 	return;
 }
 
-void onStringFound2 (std:: string & s)
+void onStringFound2 (std:: string s)
 {
 	std::cout<<"string(pr2): "<<s<<'\n';
 	return;

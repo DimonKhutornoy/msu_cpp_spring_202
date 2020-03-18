@@ -2,7 +2,7 @@
 #define	_PARCE_H_
 
 using onNum = void (*)(int);
-using onWord = void (*)(std:: string &);
+using onWord = void (*)(std:: string);
 using limits = void (*)();
 
 class parcing

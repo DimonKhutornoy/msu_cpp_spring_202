@@ -32,9 +32,9 @@ void parcing::forFinish (limits f)
 
 void parcing::register_token(std::string & wrd)
 {
-	int flag=1;
+	bool flag=true;
 	for (int i=0; i<wrd.length(); i++)
-		flag*=(isdigit(wrd[i]));
+		flag&=(isdigit(wrd[i]));
 	
 	if (callNum && flag) 
 	{
@@ -52,7 +52,7 @@ void parcing::parce (const char * text)
 	{
 		if (isspace(*text))
 		{
-			if (wrd.length())
+			if (!wrd.empty())
 			{
 				register_token(wrd);
 				wrd.clear();
@@ -64,7 +64,7 @@ void parcing::parce (const char * text)
 		}
 		text++;
 	}
-	if (wrd.length())
+	if (!wrd.empty())
 	{
 		register_token(wrd);
 	}
