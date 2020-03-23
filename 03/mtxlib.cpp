@@ -2,14 +2,17 @@
 
 size_t Matrix::getRows () const {return m;}
 size_t Matrix::getColumns () const {return n;}
+
 Matrix::Matrix (size_t size1, size_t size2)
 {
 	m=size1;
 	n=size2;
 	mtx=(uint32_t**)malloc(sizeof(uint32_t*)*m);
+	if (!mtx) throw std::out_of_range("Init Error!");
 	for (size_t i=0; i<m; i++)
 	{
 		mtx[i]=(uint32_t*)malloc(sizeof(uint32_t)*n);
+		if (!mtx[i]) throw std::out_of_range("Init Error!");
 	}
 }
 
@@ -18,9 +21,11 @@ Matrix::Matrix (const Matrix & cp)
 	m=cp.m;
 	n=cp.n;
 	mtx=(uint32_t**)malloc(sizeof(uint32_t*)*m);
+	if (!mtx) throw std::out_of_range("Copy Error!");
 	for (size_t i=0; i<m; i++)
 	{
 		mtx[i]=(uint32_t*)malloc(sizeof(uint32_t)*n);
+		if (!mtx[i]) throw std::out_of_range("Copy Error!");
 	}
 	for (size_t i=0; i<m; i++)
 	{
@@ -31,25 +36,25 @@ Matrix::Matrix (const Matrix & cp)
 	}
 }
 
-void Matrix::MtxRead ()
+void Matrix::MtxRead (std::istream &in)
 {
 	for (size_t i=0; i<m; i++)
 	{
 		for (size_t j=0; j<n; j++)
 		{
-			std::cin>>mtx[i][j];
+			in>>mtx[i][j];
 		}
 	}
 }
-void Matrix::MtxPrint ()
+void Matrix::MtxPrint (std::ostream & out)
 {
 	for (size_t i=0; i<m; i++)
 	{
 		for (size_t j=0; j<n; j++)
 		{
-			std::cout<<mtx[i][j]<<' ';
+			out<<mtx[i][j]<<' ';
 		}
-	std::cout<<'\n';
+	out<<'\n';
 	}
 }
 
@@ -76,6 +81,10 @@ bool Matrix::operator==(const Matrix & op2)
 		for (size_t j=0; j<n; j++)
 		{
 			res&=(mtx[i][j]==op2.mtx[i][j]);
+			if (!res)
+			{
+				break;
+			}
 		}
 	}
 	return res;
@@ -83,37 +92,26 @@ bool Matrix::operator==(const Matrix & op2)
 
 bool Matrix::operator!=(const Matrix & op2)
 {
-	bool res=true;
-	if (m!=op2.m || n!=op2.n)
-	{
-		return false;
-	}
-	for (size_t i=0; i<m; i++)
-	{
-		for (size_t j=0; j<n; j++)
-		{
-			res&=(mtx[i][j]==op2.mtx[i][j]);
-		}
-	}
-	return !res;
+	
+	return !(*this==op2);
 }
 
-Matrix::vec::vec (uint32_t * mas, size_t sz)
+Matrix::Vec::Vec (uint32_t * mas, size_t sz)
 {
 	vn=sz;
 	v=mas;
 } 
 
-uint32_t & Matrix::vec::operator[](const size_t i)
+uint32_t & Matrix::Vec::operator[](const size_t i)
 {
 	if (i>=vn) throw std::out_of_range("Size Error!");
 	return (this->v)[i];
 }
 
-Matrix::vec Matrix::operator[](size_t i)
+Matrix::Vec Matrix::operator[](size_t i) const
 {
 	if (i>=m) throw std::out_of_range("Size Error!");
-	vec r(mtx[i], n);
+	Vec r(mtx[i], n);
 	return r;
 }	
 
