@@ -44,7 +44,6 @@ int main()
     check_equal(m2[1][0], 4 * 2);
     check_equal(m2[1][1], 5 * 2);
     check_equal(m2[1][2], 6 * 2);
-
     Matrix m3(0, 0);
     check_throw(m3[0][0], std::out_of_range);
 

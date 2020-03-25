@@ -27,8 +27,10 @@ public:
 	public:
 		Vec (uint32_t *, size_t);
 		uint32_t & operator[](const size_t);
+		const uint32_t & operator[](const size_t) const;
 	};
-	Vec operator[](size_t) const;
+	Vec operator[](const size_t);
+	const Vec operator[](const size_t) const;
 	~Matrix();
 };
 

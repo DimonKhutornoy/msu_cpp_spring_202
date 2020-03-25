@@ -8,6 +8,9 @@ mtxlib.o: mtxlib.cpp mtxlib.h
 
 test.o: test.cpp mtxlib.h
 		g++ -c test.cpp
+		
+run:	my_prog
+		./my_prog
 
 clean:
 		rm -rf *.o my_prog

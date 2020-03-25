@@ -3,16 +3,22 @@
 size_t Matrix::getRows () const {return m;}
 size_t Matrix::getColumns () const {return n;}
 
-Matrix::Matrix (size_t size1, size_t size2)
+Matrix::Matrix (size_t size1, size_t size2) : m(size1), n(size2) 
 {
-	m=size1;
-	n=size2;
 	mtx=(uint32_t**)malloc(sizeof(uint32_t*)*m);
 	if (!mtx) throw std::out_of_range("Init Error!");
 	for (size_t i=0; i<m; i++)
 	{
 		mtx[i]=(uint32_t*)malloc(sizeof(uint32_t)*n);
-		if (!mtx[i]) throw std::out_of_range("Init Error!");
+		if (!mtx[i]) 
+		{
+			throw std::out_of_range("Init Error!");
+			for (size_t j=0; j<i; j++)
+			{
+				free(mtx[j]);
+			}
+			free(mtx);
+		}
 	}
 }
 
@@ -25,7 +31,15 @@ Matrix::Matrix (const Matrix & cp)
 	for (size_t i=0; i<m; i++)
 	{
 		mtx[i]=(uint32_t*)malloc(sizeof(uint32_t)*n);
-		if (!mtx[i]) throw std::out_of_range("Copy Error!");
+		if (!mtx[i]) 
+		{
+			throw std::out_of_range("Copy Error!");
+			for (size_t j=0; j<i; j++)
+			{
+				free(mtx[j]);
+			}
+			free(mtx);
+		}
 	}
 	for (size_t i=0; i<m; i++)
 	{
@@ -105,15 +119,27 @@ Matrix::Vec::Vec (uint32_t * mas, size_t sz)
 uint32_t & Matrix::Vec::operator[](const size_t i)
 {
 	if (i>=vn) throw std::out_of_range("Size Error!");
-	return (this->v)[i];
+	return v[i];
 }
 
-Matrix::Vec Matrix::operator[](size_t i) const
+const uint32_t & Matrix::Vec::operator[](const size_t i) const
+{
+	if (i>=vn) throw std::out_of_range("Size Error!");
+	return v[i];
+}
+
+Matrix::Vec Matrix::operator[](const size_t i)
 {
 	if (i>=m) throw std::out_of_range("Size Error!");
-	Vec r(mtx[i], n);
-	return r;
+	return Vec(mtx[i], this->n);
 }	
+
+const Matrix::Vec Matrix::operator[](const size_t i) const
+{
+	if (i>=m) throw std::out_of_range("Size Error!");
+	return Vec(mtx[i], this->n);
+}	
+
 
 Matrix::~Matrix()
 {
