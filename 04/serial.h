@@ -8,42 +8,42 @@
 
 enum class Error
 {
-    NoError,
-    CorruptedArchive
+	NoError,
+	CorruptedArchive
 };
 
 class Serializer
 {
 	std::ostream & out_;
-    static constexpr char Separator = ' ';
+	static constexpr char Separator = ' ';
 public:
-    explicit Serializer(std::ostream& out)
-        : out_(out)
-    {
-    }
+	explicit Serializer(std::ostream& out)
+		: out_(out)
+	{
+	}
 
-    template <class T>
-    Error save(T& object)
-    {
-        return object.serialize(*this);
-    }
+	template <class T>
+	Error save(T& object)
+	{
+		return object.serialize(*this);
+	}
 
-    template <class... ArgsT>
-    Error operator()(ArgsT... args)
-    {
-        return process(args...);
-    }
-	
+	template <class... ArgsT>
+	Error operator()(ArgsT &... args)
+	{
+		return process(args...);
+	}
+
 	Error sav(bool);
 	Error sav(uint64_t);
 private:
-	
+
 	template <class T>
 	Error process(T&& val)
 	{
 		return sav(val);
 	}
-	
+
 	template <class T, class... Args>
 	Error process(T&& val, Args&&... args)
 	{
@@ -59,36 +59,36 @@ private:
 class Deserializer
 {
 	std::istream & in_;
-    static constexpr char Separator = ' ';
+	static constexpr char Separator = ' ';
 public:
-    explicit Deserializer(std::istream & in)
-        : in_(in)
-    {
-    }
+	explicit Deserializer(std::istream & in)
+		: in_(in)
+	{
+	}
 
-    template <class T>
-    Error load(T& object)
-    {
-        return object.serialize(*this);
-    }
+	template <class T>
+	Error load(T& object)
+	{
+		return object.serialize(*this);
+	}
 
-    template <class... ArgsT>
-    Error operator()(ArgsT &... args)
-    {
-        return process(args...);
-    }
-	
+	template <class... ArgsT>
+	Error operator()(ArgsT &... args)
+	{
+		return process(args...);
+	}
+
 	Error ld(bool &);
 	Error ld(uint64_t &);
     
 private:
-    template <class T>
+	template <class T>
 	Error process(T&& val)
 	{
 		Error Err=ld(val);
 		return Err;
 	}
-	
+
 	template <class T, class... Args>
 	Error process(T&& val, Args&&... args)
 	{

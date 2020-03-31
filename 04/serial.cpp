@@ -2,47 +2,44 @@
 
 Error Deserializer::ld(bool& value)
 {
-    std::string text;
-    in_ >> text;
+	std::string text;
+	in_ >> text;
 
-    if (text == "true")
-        value = true;
-    else if (text == "false")
-        value = false;
-    else
-        return Error::CorruptedArchive;
+	if (text == "true")
+		value = true;
+	else if (text == "false")
+		value = false;
+	else
+		return Error::CorruptedArchive;
 
-    return Error::NoError;
+	return Error::NoError;
 }
 
 Error Deserializer::ld(uint64_t & value)
 {
-    std::string text;
-    in_ >> text;
-	bool Error_flag=false;
+	std::string text;
+	in_ >> text;
 	value=0;
-	for (int i=0; i<text.size(); i++)
+	for (size_t i=0; i<text.size(); i++)
 	{
 		if (!isdigit(text[i])) 
 		{
-			Error_flag=true;
-			break;
+			return Error::CorruptedArchive;
 		}
 		value=10*value+(text[i]-'0');
 	}
-    if(Error_flag)
-        return Error::CorruptedArchive;
 
-    return Error::NoError;
+	return Error::NoError;
 }
+
 Error Serializer::sav(bool value)
 {
-    if (value)
-        out_<<"true"<<Separator;
-    else 
-        out_<<"false"<<Separator;
+	if (value)
+		out_<<"true"<<Separator;
+	else 
+		out_<<"false"<<Separator;
 
-    return Error::NoError;
+	return Error::NoError;
 }
 
 Error Serializer::sav(uint64_t value)
@@ -66,5 +63,5 @@ Error Serializer::sav(uint64_t value)
 	{
 		out_<<text<<Separator;
 	}
-    return Error::NoError;
+	return Error::NoError;
 }
