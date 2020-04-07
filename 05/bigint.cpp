@@ -89,7 +89,7 @@ std::ostream& operator<<(std::ostream& out, const BigInt& c)
     return out;
 }
 
-bool BigInt::operator==(BigInt op) const
+bool BigInt::operator==(const BigInt & op) const
 {
     bool fl = true;
     if (cnt != op.cnt || sgn != op.sgn)
@@ -103,13 +103,13 @@ bool BigInt::operator==(BigInt op) const
     return fl;
 }
 
-bool BigInt::operator!=(BigInt op) const
+bool BigInt::operator!=(const BigInt & op) const
 {
     bool fl = (*this == op);
     return !fl;
 }
 
-bool BigInt::operator<(BigInt op) const
+bool BigInt::operator<(const BigInt & op) const
 {
     int i = cnt - 1;
     if (sgn == true && op.sgn == false)
@@ -137,7 +137,7 @@ bool BigInt::operator<(BigInt op) const
     return x > y;
 }
 
-bool BigInt::operator>(BigInt op) const
+bool BigInt::operator>(const BigInt & op) const
 {
     int i = cnt - 1;
     if (sgn == true && op.sgn == false)
@@ -165,13 +165,13 @@ bool BigInt::operator>(BigInt op) const
     return x < y;
 }
 
-bool BigInt::operator<=(BigInt op) const
+bool BigInt::operator<=(const BigInt & op) const
 {
     bool fl = (*this > op);
     return !fl;
 }
 
-bool BigInt::operator>=(BigInt op) const
+bool BigInt::operator>=(const BigInt & op) const
 {
     bool fl = (*this < op);
     return !fl;
@@ -185,7 +185,7 @@ BigInt& BigInt::operator-()
     return *this;
 }
 
-BigInt BigInt::operator+(BigInt op2) const
+BigInt BigInt::operator+(const BigInt & op2) const
 {
     BigInt res;
     uint8_t left = 0;
@@ -251,7 +251,7 @@ BigInt BigInt::operator+(BigInt op2) const
     return res;
 }
 
-BigInt BigInt::operator-(BigInt op2) const
+BigInt BigInt::operator-(const BigInt & op2) const
 {
     BigInt res;
     uint8_t left = 0;
