@@ -54,7 +54,7 @@ public:
     ~ThreadPool()
     {
         active = false;
-        cv.notify_all(); // Wake up
+        cv.notify_all(); // Wake up!
         while (!pool_.empty()) // And die
         {
             pool_.front().join();
@@ -75,9 +75,9 @@ public:
         queue_.push([p]()
             {
                 (*p)();
-            }); //добавляем в очередь. Нельзя ли никак это более адекватно реализовать???
+            }); //добавляем в очередь. Нельзя ли никак это более адекватно реализовать??? Я не знаю, правильно ли это работает...
         cv.notify_one(); //будим любой поток, пусть выполняет нашу задачу
-        return p->get_future();
+        return p->get_future(); //-> так как у нас p - ссылка
     }
 };
 
