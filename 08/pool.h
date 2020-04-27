@@ -12,7 +12,7 @@ class ThreadPool
     size_t size;
     bool active;
 
-    std::queue<std::function<void()>>
+    std::queue<std::function<void()> >
         queue_; //очередь функциональных объектов, тут будем хранить процессы на выполнение
     std::vector<std::thread> pool_; //наш pool
 
@@ -65,16 +65,19 @@ public:
     template <class Func, class... Args>
     auto exec(Func func, Args... args) -> std::future<decltype(func(args...))>
     {
-        auto p = std::make_shared<std::packaged_task<decltype(func(args...))()> >
-            (std::bind(std::forward<Func>(func), std::forward<Args>(args)...)); //делаем для функции тот интерфейс, который требуется
-		{
-			std::lock_guard<std::mutex> lock(mut);
-			if (!active)
-			{
-				throw std::runtime_error("The pool has stopped"); //Для безопасности
-			}
-			queue_.emplace([p]{(*p)();}); //добавляем в очередь. Нельзя ли никак это более адекватно реализовать??? Я не знаю, правильно ли это работает...
-		}
+        auto p = std::make_shared<std::packaged_task<decltype(func(args...))()> >(
+            std::bind(std::forward<Func>(func), std::forward<Args>(args)...)); //делаем для функции тот интерфейс, который требуется
+        {
+            std::lock_guard<std::mutex> lock(mut);
+            if (!active)
+            {
+                throw std::runtime_error("The pool has stopped"); //Для безопасности
+            }
+            queue_.emplace([p]()
+                {
+                    (*p)();
+                }); //добавляем в очередь.
+        }
         cv.notify_one(); //будим любой поток, пусть выполняет нашу задачу
         return p->get_future(); //-> так как у нас p - ссылка
     }
