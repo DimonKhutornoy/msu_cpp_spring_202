@@ -7,7 +7,7 @@ using namespace std;
 
 int main()
 {
-    size_t TrueCount = 1000000;
+    size_t TrueCount = 8192000;
     ofstream ofile;
     uint64_t t;
     ifstream file;

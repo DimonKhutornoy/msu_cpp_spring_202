@@ -12,4 +12,3 @@
 #pragma once
 
 void mysort(const std::string&, const std::string&);
-void sort(std::mutex&, std::ifstream&, std::ofstream&, size_t);

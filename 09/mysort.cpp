@@ -53,13 +53,11 @@ void mysort(const std::string& input_path, const std::string& output_path)
 
     auto sort_function = std::bind(sort, std::ref(mut), std::ref(input), std::ref(tmp), buf_size);
 
-    std::vector<std::thread> v;
+    std::thread th1 (sort_function);
+    std::thread th2 (sort_function);
 
-    v.emplace_back(sort_function);
-    v.emplace_back(sort_function);
-
-    v[0].join();
-    v[1].join();
+    th1.join();
+    th2.join();
 
     tmp.close();
     input.close();
